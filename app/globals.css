@@ -1,26 +1,272 @@
 @import "tailwindcss";
 
+/* ── Light (cream) ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f7f3ec;
+  --surface: #ede8de;
+  --border: #d4c9b8;
+  --text: #2a2016;
+  --text-secondary: #6b5e4e;
+  --text-muted: #a89880;
+  --amber: #7a5c1e;
+  --pill-bg: #e6dfd2;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Dark (warm charcoal) ── */
+html.dark {
+  --bg: #111009;
+  --surface: #1c1a12;
+  --border: #2e2a1e;
+  --text: #e2d9c5;
+  --text-secondary: #a89270;
+  --text-muted: #6b5e42;
+  --amber: #c4923c;
+  --pill-bg: #252116;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Force dark mode backgrounds — !important to beat Tailwind base */
+html.dark,
+html.dark body {
+  background-color: #111009 !important;
+  color: #e2d9c5 !important;
 }
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f7f3ec;
+  color: #2a2016;
+  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 250ms ease, color 250ms ease;
+}
+
+/* ── scrollbar ── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── selection ── */
+::selection { background: var(--surface); }
+
+/* ── monospace header notation ── */
+.mono {
+  font-family: var(--font-mono), 'Courier New', monospace;
+}
+
+/* ── section wrapper ── */
+.section-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 5rem 2.5rem;
+}
+
+/* ── divider rows ── */
+.row-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.row-item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+/* ── clickable row ── */
+a.row-item {
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+  border-radius: 4px;
+  margin: 0 -0.6rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+a.row-item:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+html:not(.dark) a.row-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* ── interest item buttons ── */
+.interest-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  transition: color 150ms ease;
+  font-family: inherit;
+}
+.interest-btn:hover,
+.interest-btn.active {
+  color: var(--text);
+}
+
+/* ── nav links ── */
+.nav-link {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: color 150ms ease;
+}
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text);
+}
+
+/* ── company name link ── */
+.company-link {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: text-decoration 150ms ease;
+}
+.company-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── inline text link ── */
+.text-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  transition: color 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.text-link:hover { color: var(--text); }
+
+/* ── tag pill ── */
+.tag-pill {
+  background: var(--pill-bg);
+  border: 0.5px solid var(--border);
+  border-radius: 3px;
+  font-size: 11px;
+  padding: 2px 8px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.03em;
+}
+
+/* ── project row ── */
+.project-row {
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.project-row:first-child {
+  border-top: 1px solid var(--border);
+}
+
+/* ── course row ── */
+.course-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── contact row ── */
+.contact-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.contact-row:first-child {
+  border-top: 1px solid var(--border);
+}
+.contact-row a {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+.contact-row a:hover {
+  color: var(--text);
+}
+
+/* ── logo circle ── */
+.logo-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0;
+}
+
+/* ── photo frame ── */
+.photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: default;
+}
+.photo-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.photo-layer.visible {
+  opacity: 1;
+}
+.photo-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ── tab filter ── */
+.tab-btn {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0;
+  color: var(--text-muted);
+  font-family: var(--font-mono), monospace;
+  transition: color 150ms ease;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text-secondary); }
+.tab-btn.active {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
