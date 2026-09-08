@@ -41,9 +41,9 @@ export default function Nav() {
 
   function applyTheme(isDark: boolean) {
     document.documentElement.classList.toggle('dark', isDark)
-    document.documentElement.style.backgroundColor = isDark ? '#111009' : '#f7f3ec'
-    document.body.style.backgroundColor = isDark ? '#111009' : '#f7f3ec'
-    document.body.style.color = isDark ? '#e2d9c5' : '#2a2016'
+    document.documentElement.style.backgroundColor = isDark ? '#0d1220' : '#f7f3ec'
+    document.body.style.backgroundColor = isDark ? '#0d1220' : '#f7f3ec'
+    document.body.style.color = isDark ? '#e4e7f0' : '#2a2016'
   }
 
   function scrollTo(href: string) {
@@ -79,9 +79,11 @@ export default function Nav() {
         left: 0,
         right: 0,
         zIndex: 50,
-        background: scrolled ? 'var(--bg)' : 'transparent',
+        background: scrolled ? 'var(--bg-scroll)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-        transition: 'background 250ms ease, border-color 250ms ease',
+        transition: 'background 250ms ease, border-color 250ms ease, backdrop-filter 250ms ease',
       }}
     >
       <div
@@ -89,7 +91,7 @@ export default function Nav() {
           maxWidth: 900,
           margin: '0 auto',
           padding: '0 2.5rem',
-          height: 52,
+          height: 64,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',

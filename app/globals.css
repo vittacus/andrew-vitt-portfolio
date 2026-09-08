@@ -10,25 +10,28 @@
   --text-muted: #a89880;
   --amber: #7a5c1e;
   --pill-bg: #e6dfd2;
+  --font-display: var(--font-instrument-serif);
+  --bg-scroll: rgba(247, 243, 236, 0.88);
 }
 
-/* ── Dark (warm charcoal) ── */
+/* ── Dark (deep navy) ── */
 html.dark {
-  --bg: #111009;
-  --surface: #1c1a12;
-  --border: #2e2a1e;
-  --text: #e2d9c5;
-  --text-secondary: #a89270;
-  --text-muted: #6b5e42;
+  --bg: #0d1220;
+  --surface: #131826;
+  --border: #1e2436;
+  --text: #e4e7f0;
+  --text-secondary: #8b96b4;
+  --text-muted: #536080;
   --amber: #c4923c;
-  --pill-bg: #252116;
+  --pill-bg: #161c2e;
+  --bg-scroll: rgba(13, 18, 32, 0.88);
 }
 
 /* Force dark mode backgrounds — !important to beat Tailwind base */
 html.dark,
 html.dark body {
-  background-color: #111009 !important;
-  color: #e2d9c5 !important;
+  background-color: #0d1220 !important;
+  color: #e4e7f0 !important;
 }
 
 * { box-sizing: border-box; }
@@ -38,7 +41,7 @@ html { scroll-behavior: smooth; }
 body {
   background-color: #f7f3ec;
   color: #2a2016;
-  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   transition: background-color 250ms ease, color 250ms ease;
 }
@@ -86,10 +89,25 @@ a.row-item {
   padding-right: 0.6rem;
 }
 a.row-item:hover {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(196, 146, 60, 0.08);
 }
 html:not(.dark) a.row-item:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(122, 92, 30, 0.05);
+}
+
+/* ── project card header (clickable) ── */
+.project-header {
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 0 -0.5rem;
+  padding: 0 0.5rem 0;
+  transition: background-color 150ms ease;
+}
+.project-header:hover {
+  background-color: rgba(196, 146, 60, 0.07);
+}
+html:not(.dark) .project-header:hover {
+  background-color: rgba(122, 92, 30, 0.05);
 }
 
 /* ── interest item buttons ── */
@@ -113,8 +131,8 @@ html:not(.dark) a.row-item:hover {
 
 /* ── nav links ── */
 .nav-link {
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-size: 13px;
+  letter-spacing: 0.1em;
   color: var(--text-secondary);
   background: none;
   border: none;
@@ -269,4 +287,64 @@ html:not(.dark) a.row-item:hover {
   color: var(--text);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ── display name (hero h1) ── */
+.display-name {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+/* ── profile button links (Resume / LinkedIn / GitHub / Email) ── */
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: var(--surface);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  letter-spacing: 0.02em;
+}
+.profile-link:hover {
+  background: var(--pill-bg);
+  border-color: var(--amber);
+  color: var(--text);
+}
+
+/* ── quiet tag (in expanded case study body) ── */
+.tag-pill-quiet {
+  background: transparent;
+  font-size: 11px;
+  padding: 0;
+  color: var(--text-muted);
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.03em;
+}
+
+/* ── project case study expand button ── */
+.case-study-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-family: var(--font-mono), monospace;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  user-select: none;
+  width: 100%;
+}
+.project-header:hover .case-study-btn {
+  border-color: var(--amber);
+  color: var(--text-secondary);
+  background-color: rgba(196, 146, 60, 0.06);
 }

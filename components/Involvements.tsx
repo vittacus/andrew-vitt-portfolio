@@ -12,7 +12,7 @@ const INVOLVEMENTS = [
   },
   {
     initials: 'BC',
-    favicon: null,
+    favicon: '/images/logo-bcec.png',
     org: 'BCEC',
     url: 'https://www.linkedin.com/company/bcec-berkeley',
     role: 'Project Manager Lead',
@@ -26,7 +26,7 @@ export default function Involvements() {
     <section id="involvements" className="section-wrap" style={{ paddingTop: 0 }}>
       <p
         className="mono"
-        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--text)', marginBottom: '2rem', userSelect: 'none' }}
+        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--amber)', marginBottom: '2rem', userSelect: 'none' }}
       >
         [ Involvements ]
       </p>

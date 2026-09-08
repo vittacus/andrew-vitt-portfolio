@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Mono, Inter } from "next/font/google";
+import { Space_Mono, Inter, Fraunces, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
 const spaceMono = Space_Mono({
@@ -15,9 +15,23 @@ const inter = Inter({
   display: 'swap',
 })
 
+const fraunces = Fraunces({
+  weight: ['300', '400'],
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+})
+
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-instrument-serif',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: "Andrew Vitt",
-  description: "UC Berkeley '26 — Data Science & Legal Studies. PM-track.",
+  description: "UC Berkeley '26, Data Science and Legal Studies. PM-track.",
 };
 
 export default function RootLayout({
@@ -28,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceMono.variable} ${inter.variable}`}
+      className={`${spaceMono.variable} ${inter.variable} ${fraunces.variable} ${instrumentSerif.variable}`}
       style={{ backgroundColor: '#f7f3ec' }}
     >
       <body style={{ backgroundColor: '#f7f3ec' }}>{children}</body>

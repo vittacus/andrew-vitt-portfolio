@@ -11,7 +11,7 @@ const EXPERIENCES = [
     url: 'https://www.spacex.com',
     role: 'Product Manager Intern & Supply Chain Intern',
     period: 'June 2025 – Aug 2025',
-    tags: ['Product Strategy', 'Supply Chain', 'Data Analysis'],
+    tags: ['Product Strategy', 'Supply Chain', 'Cross-functional Collaboration'],
   },
   {
     initials: 'TS',
@@ -23,7 +23,7 @@ const EXPERIENCES = [
     url: 'https://www.linkedin.com/company/takesinc/',
     role: 'Product Manager Intern',
     period: 'Mar 2023 – May 2025',
-    tags: ['Product Management', 'A/B Testing', 'User Research'],
+    tags: ['Product Strategy', 'A/B Testing', 'Agile/Scrum'],
   },
   {
     initials: 'XM',
@@ -33,9 +33,9 @@ const EXPERIENCES = [
     badgeFg: undefined,
     company: 'SiriusXM / Pandora',
     url: 'https://www.siriusxm.com',
-    role: 'Project Manager, Product Strategy (Consulting Engagement)',
-    period: 'June 2024 – Present',
-    tags: ['Product Strategy', 'User Research', 'Healthcare'],
+    role: 'Project Manager, Product Strategy (Contract)',
+    period: 'June 2024 – Dec 2024',
+    tags: ['Product Strategy', 'User Research', 'Market Research'],
   },
   {
     initials: 'LN',
@@ -47,17 +47,17 @@ const EXPERIENCES = [
     url: 'https://www.livenationentertainment.com',
     role: 'Product Manager (Contract)',
     period: 'Jan 2024 – June 2024',
-    tags: ['Product Management', 'User Research', 'Roadmapping'],
+    tags: ['Stakeholder Management', 'User Research', 'Product Roadmapping'],
   },
   {
     initials: 'SP',
-    favicon: 'https://splice.com/favicon.ico',
+    favicon: '/images/logo-splice.png',
     lightBg: false,
     badgeBg: undefined,
     badgeFg: undefined,
     company: 'Splice',
     url: 'https://splice.com',
-    role: 'Product Strategy Intern (Consulting Engagement)',
+    role: 'Product Strategy Intern (Contract)',
     period: 'May 2024 – Dec 2024',
     tags: ['Go-to-Market Strategy', 'Market Research', 'Brand Partnerships'],
   },
@@ -71,7 +71,7 @@ const EXPERIENCES = [
     url: 'https://wbd.com',
     role: 'Product Strategy (Contract)',
     period: 'Aug 2023 – Dec 2023',
-    tags: ['Product Strategy', 'Analytics', 'Stakeholder Management'],
+    tags: ['Product Strategy', 'KPI Tracking', 'Stakeholder Management'],
   },
   {
     initials: 'JP',
@@ -92,7 +92,7 @@ export default function Experience() {
     <section id="experience" className="section-wrap" style={{ paddingTop: '2.5rem' }}>
       <p
         className="mono"
-        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--text)', marginBottom: '2rem', userSelect: 'none' }}
+        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--amber)', marginBottom: '2rem', userSelect: 'none' }}
       >
         [ Work Experience ]
       </p>

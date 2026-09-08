@@ -26,6 +26,10 @@ export default function Starfield() {
     let particles: Particle[] = []
     let raf: number
     let t = 0
+    let mx = window.innerWidth / 2
+    let my = window.innerHeight / 2
+    const onMouse = (e: MouseEvent) => { mx = e.clientX; my = e.clientY }
+    window.addEventListener('mousemove', onMouse, { passive: true })
 
     function resize() {
       if (!canvas) return
@@ -53,16 +57,18 @@ export default function Starfield() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       const isDark = document.documentElement.classList.contains('dark')
-      const r = isDark ? 210 : 100
-      const g = isDark ? 185 : 78
-      const b = isDark ? 140 : 48
+      const r = isDark ? 195 : 100
+      const g = isDark ? 205 : 78
+      const b = isDark ? 235 : 48
 
       for (const p of particles) {
         const twinkle = Math.sin(t * p.twinkleSpeed + p.twinkleOffset) * 0.15
         const alpha = Math.max(0, Math.min(0.6, p.opacity + twinkle))
 
+        const px = ((mx / window.innerWidth) - 0.5) * p.size * 5
+        const py = ((my / window.innerHeight) - 0.5) * p.size * 5
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.arc(p.x + px, p.y + py, p.size, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`
         ctx.fill()
 
@@ -84,7 +90,7 @@ export default function Starfield() {
     const ro = new ResizeObserver(resize)
     ro.observe(document.documentElement)
 
-    return () => { cancelAnimationFrame(raf); ro.disconnect() }
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener('mousemove', onMouse) }
   }, [])
 
   return (

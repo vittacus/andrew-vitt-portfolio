@@ -10,7 +10,7 @@ export default function Contact() {
     <section id="contact" className="section-wrap" style={{ paddingTop: 0 }}>
       <p
         className="mono"
-        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--text)', marginBottom: '2rem', userSelect: 'none' }}
+        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--amber)', marginBottom: '2rem', userSelect: 'none' }}
       >
         [ Contact ]
       </p>
@@ -31,7 +31,7 @@ export default function Contact() {
         className="mono"
         style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '3rem', letterSpacing: '0.06em' }}
       >
-        [ andrewvitt.com — {new Date().getFullYear()} ]
+        [ andrewvitt.com · {new Date().getFullYear()} ]
       </p>
     </section>
   )

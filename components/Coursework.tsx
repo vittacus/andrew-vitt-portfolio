@@ -41,7 +41,7 @@ export default function Coursework() {
     <section id="coursework" className="section-wrap" style={{ paddingTop: 0 }}>
       <p
         className="mono"
-        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--text)', marginBottom: '1.5rem', userSelect: 'none' }}
+        style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'var(--amber)', marginBottom: '1.5rem', userSelect: 'none' }}
       >
         [ Coursework ]
       </p>
