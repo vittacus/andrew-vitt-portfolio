@@ -195,6 +195,9 @@ export default function About() {
           </div>
         </div>
 
+        {/* Divider */}
+        <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '0 0 2.5rem' }} />
+
         {/* ── Interests + Photo row ── */}
         {/* alignItems: center so the shorter interests list sits centered beside the taller photo */}
         <div
