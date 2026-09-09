@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 
 type ProjectScreenshot = {
   src: string
@@ -17,6 +17,7 @@ type Project = {
   name: string
   tagline: string
   sections: ProjectSection[]
+  demoUrl: string | null
   liveUrl: string | null
   githubUrl: string | null
   tags: string[]
@@ -30,37 +31,50 @@ const PROJECTS: Project[] = [
     tagline: 'Music rating and discovery, the way you actually listen.',
     sections: [
       {
-        label: 'The Question',
-        text: 'What does a music rating app look like if it\'s built around how people actually listen, rather than stars or reviews? Streaming gives you data on what you play, but nothing on why: whether a song was the right mood, whether you\'d want it again, or what it says about your taste.',
+        label: 'The Problem',
+        text: 'Letterboxd proved people want to rate what they consume thoughtfully and build an identity around their taste. Nothing does this well for music. Spotify\'s own rating system is a binary like/dislike buried in a menu, and it doesn\'t capture what actually made a song work: the lyrics, the production, or just its replay value. It also doesn\'t turn a listening history into something browsable or shareable.',
       },
       {
         label: 'What I Built',
-        text: 'Noted lets users search any Spotify track and rate it across three dimensions: replay value, lyrics, and production, then tag it with a vibe like late night, hype, or heartbreak. Those ratings feed two radar charts, Genre DNA and Vibe DNA, that build a real picture of taste over time. A community feed shows what others are rating in real time, with comments. Built with Next.js, Supabase, and the Spotify Web API, deployed on Vercel.',
+        text: 'A full-stack rating platform where every song is scored across three dimensions (Replay Value, Lyrics, Production) rather than one flattened score. Those ratings feed two radar charts on a user\'s profile, Genre DNA and Vibe DNA, that turn a rating history into a visual taste identity. It also includes an ELO-style Battle Mode to re-rank a library head to head, mood-tagged collections users can customize, and a real social layer: a Postgres-backed follow graph, a community feed, and inline commenting.',
       },
       {
         label: 'A Key Decision',
-        text: 'Battle mode came from noticing that ratings alone don\'t surface actual favorites. Songs rated in a good mood score artificially high. Rather than just average scores, battle mode pits saved songs head-to-head in an ELO-style bracket so the ranking self-corrects over time through direct comparisons, not isolated moments.',
+        text: 'Since this is a portfolio piece, I originally built an auto-login flow so evaluators could explore a populated account without creating one. I rebuilt it as a read-only, server-rendered public demo route instead: faster, free of an entire class of authentication bugs, and closer to what someone evaluating a project actually wants. Separately, Spotify permanently deprecated the recommendation endpoint mid-build, so the recommendation logic had to be rebuilt on genre and artist overlap instead of Spotify\'s own collaborative filtering.',
       },
       {
-        label: 'What It Shows',
-        text: 'A full end-to-end product build, from PRD through shipped app, demonstrating how to take a real product question, make deliberate design tradeoffs, and ship something that works. The core insight was that taste is revealed through comparison and context, not scores.',
+        label: 'Outcome',
+        text: 'A live, fully functional social music-rating app with a public no-signup demo anyone can click through immediately. The social layer is real, not a mockup: a Postgres-backed follow graph, live follower and following counts, and a handful of seeded friend accounts with genuine rating histories, so a first-time visitor sees a populated product rather than an empty state.',
       },
     ],
-    liveUrl: 'https://noted-app.vercel.app',
+    demoUrl: 'https://noted-app-eight.vercel.app/demo',
+    liveUrl: 'https://noted-app-eight.vercel.app',
     githubUrl: 'https://github.com/vittacus/noted-app',
-    tags: ['Next.js', 'Supabase', 'TypeScript', 'Product'],
+    tags: ['Next.js 14', 'Supabase', 'Spotify Web API', 'Tailwind CSS', 'Vercel'],
     screenshots: [
       {
-        src: '/images/projects/noted/1.png',
-        caption: 'Track search and rating: score a song across replay value, lyrics, and production.',
+        src: '/images/projects/noted/Home Feed.png',
+        caption: 'Community feed showing ratings as they happen, with inline commenting.',
       },
       {
-        src: '/images/projects/noted/2.png',
-        caption: 'Genre DNA and Vibe DNA radar charts built from your logged ratings.',
+        src: '/images/projects/noted/User Profile.png',
+        caption: 'A user\'s profile: taste stats, Genre/Vibe DNA, and rating history.',
       },
       {
-        src: '/images/projects/noted/3.png',
-        caption: 'Battle mode, an ELO-style bracket to surface your actual favorites.',
+        src: '/images/projects/noted/Battle Mode.png',
+        caption: 'ELO-style Battle Mode for re-ranking rated songs head to head.',
+      },
+      {
+        src: '/images/projects/noted/Library View.png',
+        caption: 'Full library with genre-coded accents, sort, and a grid/list toggle.',
+      },
+      {
+        src: '/images/projects/noted/Mood Collection.png',
+        caption: 'Mood-tagged collections, including custom user-created moods.',
+      },
+      {
+        src: '/images/projects/noted/Genre DNA.png',
+        caption: 'Genre DNA and Vibe DNA radar charts, built from a user\'s rating history.',
       },
     ],
   },
@@ -86,6 +100,7 @@ const PROJECTS: Project[] = [
         text: 'The strategy\'s actual results against buy-and-hold are visible in the live Streamlit dashboard. Whether it beats passive investing is the honest question, and the app shows the answer directly rather than cherry-picking favorable windows.',
       },
     ],
+    demoUrl: null,
     liveUrl: 'https://voo-quant-strategy.streamlit.app/',
     githubUrl: 'https://github.com/vittacus/U.S.-Stock-Evaluation',
     tags: ['Python', 'scikit-learn', 'pandas', 'Streamlit', 'Plotly'],
@@ -122,6 +137,7 @@ const PROJECTS: Project[] = [
         text: 'A tool that answers a real scouting question with an approach that\'s honest about what the data can and can\'t tell you. The dashboard is live and runs against current Premier League data. The deliberate simplification of the value model is the most important design decision in the project.',
       },
     ],
+    demoUrl: null,
     liveUrl: 'https://vittacus-football-player-scouting-engine-appdashboard-walnhp.streamlit.app/',
     githubUrl: 'https://github.com/vittacus/Football-Player-Scouting-Engine',
     tags: ['Python', 'pandas', 'scikit-learn', 'Streamlit'],
@@ -191,10 +207,47 @@ const ARROW_BTN: React.CSSProperties = {
   padding: 0,
 }
 
+const AUTO_ADVANCE_MS = 4500
+const RESUME_AFTER_MS = 6000
+
 function ScreenshotCarousel({ screenshots }: { screenshots: ProjectScreenshot[] }) {
   const [idx, setIdx] = useState(0)
-  const prev = () => setIdx(i => (i - 1 + screenshots.length) % screenshots.length)
-  const next = () => setIdx(i => (i + 1) % screenshots.length)
+  const pausedRef = useRef(false)
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const scheduleResume = useCallback(() => {
+    pausedRef.current = true
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current)
+    resumeTimerRef.current = setTimeout(() => {
+      pausedRef.current = false
+    }, RESUME_AFTER_MS)
+  }, [])
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!pausedRef.current) {
+        setIdx(i => (i + 1) % screenshots.length)
+      }
+    }, AUTO_ADVANCE_MS)
+    return () => {
+      clearInterval(timer)
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current)
+    }
+  }, [screenshots.length])
+
+  const prev = () => {
+    scheduleResume()
+    setIdx(i => (i - 1 + screenshots.length) % screenshots.length)
+  }
+  const next = () => {
+    scheduleResume()
+    setIdx(i => (i + 1) % screenshots.length)
+  }
+  const goTo = (i: number) => {
+    scheduleResume()
+    setIdx(i)
+  }
+
   const shot = screenshots[idx]
 
   return (
@@ -244,7 +297,7 @@ function ScreenshotCarousel({ screenshots }: { screenshots: ProjectScreenshot[] 
         {screenshots.map((_, i) => (
           <button
             key={i}
-            onClick={() => setIdx(i)}
+            onClick={() => goTo(i)}
             style={{
               width: 5,
               height: 5,
@@ -286,6 +339,17 @@ function ProjectCard({
           <span style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text)' }}>
             {project.name}
           </span>
+          {project.demoUrl && (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-link"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Try the Demo ↗
+            </a>
+          )}
           {project.liveUrl && (
             <a
               href={project.liveUrl}
